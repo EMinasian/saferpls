@@ -5,7 +5,7 @@ const multiplication = (matrix1, matrix2) => {
         for (let i = 0; i < matrix2.length; i++) {
             sum =+ matrix1[i] * matrix2[i][j]
         }
-        result.push(sum)
+        result.push(sum % 256)
     }
     return result
 }
