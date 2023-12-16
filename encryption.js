@@ -1,5 +1,5 @@
-import { ROUNDS, MOD_2_ADDITION_INDICES, MATRIX_M } from "./utils/consts/values"
-import multiplication from "./utils/matrixMultiplication"
+import { ROUNDS, MOD_2_ADDITION_INDICES, MATRIX_M } from "./utils/consts/values.js"
+import multiplication from "./utils/matrixMultiplication.js"
 
 const nonLinearTransformation = (input) => {
     // TODO write the non linear transformation logic
@@ -7,7 +7,7 @@ const nonLinearTransformation = (input) => {
 }
 
 
-const encrypt = (keys, input, round) => {
+const encrypt = (keys, input, round = 1) => {
 
     if (round > ROUNDS) {
         return input
@@ -25,12 +25,13 @@ const encrypt = (keys, input, round) => {
     })
 
     //process by non-linear layer
-    const nonLinearTransResult = nonLinearTransformation(additionResult)
+    // const nonLinearTransResult = nonLinearTransformation(additionResult)
 
     //add 2nd sub-key
     const subKey2 = keys[2 * round]
     const additionResult2 = []
-    nonLinearTransResult.forEach((element, index) => {
+    additionResult.forEach((element, index) => {
+    // nonLinearTransResult.forEach((element, index) => {
         if (!MOD_2_ADDITION_INDICES.includes(index)) {
             additionResult2.push(subKey2[index] ^ element)
         } else {
@@ -41,7 +42,8 @@ const encrypt = (keys, input, round) => {
     // matrix multiplication
     const y = multiplication(additionResult2, MATRIX_M)
 
-    return encrypt(keys, y, round++)
+
+    return encrypt(keys, y, round + 1)
 }
 
 export default encrypt
