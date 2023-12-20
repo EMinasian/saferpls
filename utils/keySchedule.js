@@ -27,7 +27,7 @@ const rotate3Bits = (keyRegister) => {
 const calculateKey = (pos, keyRegister) => {
     const biasWord = BIAS_WORDS[pos + 1]
     const roundKey = []
-    for(let i = 0; i < keyRegister.length - 1; i++) {
+    for(let i = 0; i < keyRegister.length; i++) {
         const value = (biasWord[i] + keyRegister[(i + pos) % keyRegister.length]) % 256
         roundKey.push(value)
     }

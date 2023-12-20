@@ -1,12 +1,12 @@
-import { MATRIX_M_INVERSE, MOD_2_ADDITION_INDICES } from "./utils/consts/values"
-import multiplication from "./utils/matrixMultiplication"
+import { MATRIX_M_INVERSE, MOD_2_ADDITION_INDICES } from "./utils/consts/values.js"
+import multiplication from "./utils/matrixMultiplication.js"
 
 const nonLinearTransformation = (input) => {
     // TODO write the non linear transformation logic
     return input
 }
 
-const decrypt = (keys, input, round) => {
+const decrypt = (keys, input, round = 8) => {
 
     if (round < 1) {
         return input
@@ -26,12 +26,13 @@ const decrypt = (keys, input, round) => {
     })
 
     //process by non-linear layer
-    const nonLinearTransResult = nonLinearTransformation(additionResult)
+    // const nonLinearTransResult = nonLinearTransformation(additionResult)
 
     //the 2nd subtraction operation
     const subKey2 = keys[2 * round - 1]
     const additionResult2 = []
-    nonLinearTransResult.forEach((element, index) => {
+    // nonLinearTransResult.forEach((element, index) => {
+        additionResult.forEach((element, index) => {
         if (MOD_2_ADDITION_INDICES.includes(index)) {
             additionResult2.push(subKey2[index] ^ element)
         } else {
@@ -39,7 +40,7 @@ const decrypt = (keys, input, round) => {
         }
     })
 
-    return decrypt(keys, additionResult2, round--)
+    return decrypt(keys, additionResult2, round - 1)
 }
 
 export default decrypt
